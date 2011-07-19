@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="http://yandex.st/jquery/1.6.2/jquery.min.js"></script>
+    <link type="text/css" href="/css/ui-lightness/jquery-ui-1.8.14.custom.css" rel="stylesheet"/>
+    <link type="text/css" href="/css/app.css" rel="stylesheet"/>
+    <script type="text/javascript" src="/js/jquery-ui-1.8.14.custom.min.js"></script>
+    <script type="text/javascript" src="/js/utility.js"></script>
+    <script type="text/javascript" src="/js/entities/competition.js"></script>
+    <script type="text/javascript" src="/js/entities/section.js"></script>
+    <script type="text/javascript" src="/js/entities/team.js"></script>
+    <script type="text/javascript" src="/js/entities/equipage.js"></script>
+    <script type="text/javascript" src="/js/local.db.js"></script>
+    <script type="text/javascript" src="/js/app.js"></script>
+    <script type="text/javascript" src="/js/entity-controller.js"></script>
+    <script type="text/javascript" src="/js/rallyResultARM.js"></script>
+</head>
+<body>
+<table>
+    <colgroup>
+        <col width="25%"/>
+        <col width="25%"/>
+        <col width="25%"/>
+        <col width="25%"/>
+    </colgroup>
+    <tr>
+        <td>
+            <h2>Соревнования</h2>
+            <div id="list-competition" class="data-container">
+            </div>
+        </td>
+        <td>
+            <h2>Команды</h2>
+            <div id="list-teams" class="data-container">
+            </div>
+        </td>
+        <td>
+            <h2>Спецучастки</h2>
+            <div id="list-sections" class="data-container">
+            </div>
+        </td>
+        <td>
+            <h2>Экипажи</h2>
+            <div id="list-equipage" class="data-container">
+            </div>
+        </td>
+    </tr>
+</table>
+
+
+<div id="form-competition" class="app-hidden">
+    <form>
+        <label for="co-name">Название</label>
+        <input type="text" name="Name" id="co-name" class="text ui-widget-content ui-corner-all"/>
+    </form>
+</div>
+
+<div id="form-sections" class="app-hidden">
+    <form>
+        <label for="se-name">Название</label>
+        <input type="text" name="Name" id="se-name" class="text ui-widget-content ui-corner-all"/>
+    </form>
+</div>
+
+<div id="form-teams" class="app-hidden">
+    <form>
+        <label for="te-name">Название</label>
+        <input type="text" name="Name" id="te-name" class="text ui-widget-content ui-corner-all"/>
+    </form>
+</div>
+
+<div id="form-equipage" class="app-hidden">
+    <form>
+        <label for="eq-firstPilot">Первый пилот</label>
+        <input type="text" name="First" id="eq-firstPilot" class="text ui-widget-content ui-corner-all"/>
+        <label for="eq-secondPilot">Второй пилот</label>
+        <input type="text" name="Second" id="eq-secondPilot" class="text ui-widget-content ui-corner-all"/>
+        <label for="eq-auto">Автомобиль</label>
+        <input type="text" name="Car" id="eq-auto" class="text ui-widget-content ui-corner-all"/>
+    </form>
+</div>
+</body>
+</html>

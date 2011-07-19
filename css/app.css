@@ -1,0 +1,61 @@
+.app-hidden {
+    display: none;
+}
+
+#list-competition {
+    width: 300px;
+    float: left;
+}
+
+#list-sections {
+    width: 300px;
+    float: left;
+}
+
+.data-container {
+    margin-left: 10px;
+}
+
+.item-list {
+    list-style-type: none;
+    padding:  0;
+    margin-top: 10px;
+    list-style-position: inside;
+}
+
+.item-list li {
+    margin: 0;
+    padding:  15px;
+    border: 1px outset #a9a9a9;
+    margin-bottom: 5px;
+    border-radius: 4px 4px 4px 4px;
+    background: #d3d3d3;
+    cursor: pointer;
+    color: black;
+    text-shadow: white 1px 0px;
+}
+
+.item-list li.item-selected {
+    background: orange;
+}
+
+.actions {
+    float: right;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    display: none;
+    margin-left: 5px;
+}
+
+.edit {
+    background:  url(/images/edit.png) center center no-repeat;
+}
+
+.delete {
+    background:  url(/images/delete.png) center center no-repeat;
+}
+
+td {
+    vertical-align: top;
+}
