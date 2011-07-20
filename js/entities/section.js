@@ -23,7 +23,8 @@ Section.newInstance = function(args) {
 Section.getStruct = function() {
     return {
         name: 'text',
-        competitionId: 'integer'
+        competitionId: 'integer',
+        order: 'integer'
     }
 };
 

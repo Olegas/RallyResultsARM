@@ -6,7 +6,9 @@ function Equipage(params) {
     this._first = params.first || "";
     this._second = params.second || "";
     this._teamId = params.teamId || 0;
+    this._number = params.number || "";
     this._car = params.car || "";
+    this._order = params.order || 0;
     this._competitionId = params.competitionId || 0;
 }
 
@@ -20,21 +22,24 @@ Equipage.newInstance = function(params) {
 
 Equipage.getStruct = function() {
     return {
+        number: 'text',
         first: 'text',
         second: 'text',
+        car: 'text',
         competitionId: 'integer',
         teamId: 'integer',
-        car: 'text'
+        order: 'integer'
     };
 };
 
 Equipage.prototype.toObject = function() {
     return {
+        number: this._number,
         first: this._first,
         second: this._second,
+        car: this._car,
         competitionId: this._competitionId,
-        teamId: this._teamId,
-        car: this._car
+        teamId: this._teamId
     }
 };
 
@@ -50,6 +55,10 @@ Equipage.prototype.setSecond = function(second) {
     this._second = second;
 };
 
+Equipage.prototype.setNumber = function(number) {
+    this._number = number;
+};
+
 Equipage.prototype.getCar = function() {
     return this._car;
 };
@@ -60,5 +69,9 @@ Equipage.prototype.getFirst = function() {
 
 Equipage.prototype.getSecond = function() {
     return this._second;
+};
+
+Equipage.prototype.getNumber = function() {
+    return this._number;
 };
 

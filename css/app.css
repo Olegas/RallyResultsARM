@@ -41,15 +41,26 @@
 
 .actions {
     float: right;
+    padding:  1px;
     width: 16px;
     height: 16px;
     cursor: pointer;
     display: none;
     margin-left: 5px;
+    border: 1px solid transparent;
+    border-radius: 2px 2px 2px 2px;
+}
+
+.action-on {
+    border-color: black;
 }
 
 .edit {
     background:  url(/images/edit.png) center center no-repeat;
+}
+
+.connect {
+    background:  url(/images/connection.png) center center no-repeat;
 }
 
 .delete {
@@ -58,4 +69,13 @@
 
 td {
     vertical-align: top;
+}
+
+.item-list li.dropHere {
+    background: #ff6600 !important;
+}
+
+.item-list li.canDrop {
+    background: #006600;
+    color: #ffffff;
 }

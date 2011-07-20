@@ -84,9 +84,10 @@ LocalDatabase.prototype.update = function(entity) {
     return dR.promise();
 };
 
-LocalDatabase.prototype.list = function(entity, where) {
+LocalDatabase.prototype.list = function(entity, where, order) {
     var dR = $.Deferred();
     var table = entity.getName();
+    order = order || [];
     this._db.transaction(function(tx){
         var sql =  "SELECT * FROM " + table + " WHERE ";
         var fields = [], data = [], marks = [];
@@ -101,6 +102,8 @@ LocalDatabase.prototype.list = function(entity, where) {
             sql += fields.join(" AND ");
         else
             sql += " id > 0";
+        if(order.length > 0)
+            sql += " ORDER BY " + order.join(', ');
         tx.executeSql(sql, data, function(tx, result){
             var res = [];
             for(var i = 0, l = result.rows.length; i < l; i++) {
@@ -168,7 +171,7 @@ LocalDatabase.prototype.put = function(entity) {
             dR.resolve(entity);
         }, function(tx, error){
             console.error(error.message);
-            dR.reject();
+            dR.reject(error.message);
         });
     });
     return dR.promise();

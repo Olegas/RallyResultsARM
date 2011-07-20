@@ -9,6 +9,14 @@ $.fn.entityList = function(cfg) {
         },
         selection: function() {
             return this.find('.item-selected').attr('eid') || null;
+        },
+        yourSibling: function(eName, relation) {
+            var d = this.find('ul').data('siblings') || [];
+            d.push(eName);
+            this.find('ul').data('siblings', d).data(eName + '-relation', relation);
+        },
+        reload: function() {
+            debugger;
         }
     };
 
@@ -38,7 +46,7 @@ $.fn.entityList = function(cfg) {
     var _addLink = $("<a href='#'>Добавить</a>");
     var _form = $("#form-" + _entityId).dialog({
         autoOpen: false,
-        height: 300,
+        height: 350,
         width: 350,
         modal: true,
         buttons: {
@@ -67,12 +75,14 @@ $.fn.entityList = function(cfg) {
 
 
     if(_master != null) {
-        for(var i = 0, l = _master.length; i<l; i++)
+        for(var i = 0, l = _master.length; i<l; i++) {
             _master[i].entityList("on", "selected", (function(ctx, relation){
                 return function(event, value) {
                     filter.apply(ctx, [relation, value]);
                 }
             })(this, _relation[i]));
+            _master[i].entityList("yourSibling", _entityConstructor.getName(), _relation[i]);
+        }
     }
 
     _addLink.click(function(){
@@ -119,6 +129,12 @@ $.fn.entityList = function(cfg) {
         });
     });
 
+    $('.connect', _list.get(0)).live('click', function(){
+        var i = $(this).toggleClass('action-on');
+        _list.find('li').draggable("option", "disabled", !i.hasClass('action-on'));
+        return false;
+    });
+
     $('.delete', _list.get(0)).live('click', function(){
         if(confirm("Delete?"))
             _app.getDb().remove(_entityConstructor, { id: $(this).parent('li').attr('eId') }).done(function(){
@@ -130,8 +146,28 @@ $.fn.entityList = function(cfg) {
 
     this.append(_addLink);
     this.append(_list);
+    if(cfg.sortable) {
+        _list.sortable({
+            stop: function(e, ui) {
+                var sql = [];
+                var data = [];
+                var tN = _entityConstructor.getName();
+                _list.find('li').each(function(idx){
+                    sql.push("UPDATE " + tN + " SET `order` = ? WHERE id = ?");
+                    data.push([idx, this.getAttribute('eId')]);
+                });
+                if(sql.length > 0) {
+                    app.getDb()._db.transaction(function(tx){
+                        for(var i = 0, l = sql.length; i<l; i++)
+                            tx.executeSql(sql[i], data[i], function(){}, function(t, e){ console.log(e.message); });
+                    })
+                }
+            }
+        });
+    }
 
     function reloadList() {
+        var order = cfg.sortable ? [ '`order` ASC' ] : [];
         _list.children().remove();
         if(_relation != null) {
             for(var i = 0, l = _relation.length; i < l; i++) {
@@ -139,9 +175,12 @@ $.fn.entityList = function(cfg) {
                     return;
             }
         }
-        _app.getDb().list(_entityConstructor, _where).done(function(list){
+        _app.getDb().list(_entityConstructor, _where, order).done(function(list){
             for(var i = 0, l = list.length; i<l; i++) {
-                var tpl = "<li eId='" + list[i]._id + "'><div class='actions edit'></div><div class='actions delete'></div>";
+                var tpl = "<li eName='" + _entityConstructor.getName() + "' eId='" + list[i]._id + "'>" +
+                        (_master != null ? "<div class='actions connect'></div>" : '') +
+                        "<div class='actions edit'></div>" +
+                        "<div class='actions delete'></div>";
                 var s = _entityConstructor.getStruct();
                 for(var f in s) {
                     if(s.hasOwnProperty(f) && s[f] == 'text') {
@@ -150,6 +189,33 @@ $.fn.entityList = function(cfg) {
                 }
                 _list.append(tpl + "</li>");
             }
+            if(_master != null) {
+                _list.find('li').draggable({
+                    helper: 'clone',
+                    opacity: 0.6,
+                    revert: true,
+                    disabled: true
+                })
+            }
+            _list.find('li').droppable({
+                accept: function(drag) {
+                    return (_list.data('siblings') || []).indexOf(drag.attr('eName')) != -1;
+                },
+                hoverClass: 'dropHere',
+                activeClass: 'canDrop',
+                drop: function(e, ui) {
+                    var tN = ui.draggable.attr('eName');
+                    var data = [ this.getAttribute('eId'), ui.draggable.attr('eId') ];
+                    var rN = $(this).parent().data(tN + '-relation');
+                    var sql = "UPDATE " + tN + " SET " + rN + " = ? WHERE id = ?";
+
+                    _app.getDb()._db.transaction(function(tx){
+                        tx.executeSql(sql, data, function(){
+                            ui.draggable.parent().entityList('reload');
+                        });
+                    })
+                }
+            })
         })
     }
 

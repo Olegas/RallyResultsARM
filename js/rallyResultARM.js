@@ -13,6 +13,7 @@ app.ready.done(function(){
         app: app,
         entity: Section,
         master: cL,
+        sortable: true,
         relation: 'competitionId'
     });
 
@@ -25,6 +26,7 @@ app.ready.done(function(){
         app: app,
         entity: Equipage,
         master: [cL, teL],
+        sortable: true,
         relation: ['competitionId', 'teamId']
     });
 
