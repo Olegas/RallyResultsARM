@@ -1,15 +1,9 @@
+* {
+    font-family: Arial;
+}
+
 .app-hidden {
     display: none;
-}
-
-#list-competition {
-    width: 300px;
-    float: left;
-}
-
-#list-sections {
-    width: 300px;
-    float: left;
 }
 
 .data-container {
@@ -21,6 +15,11 @@
     padding:  0;
     margin-top: 10px;
     list-style-position: inside;
+    width: 200px;
+}
+
+.data-container a {
+    width: 200px;
 }
 
 .item-list li {
@@ -33,10 +32,18 @@
     cursor: pointer;
     color: black;
     text-shadow: white 1px 0px;
+    position: relative;
 }
 
 .item-list li.item-selected {
     background: orange;
+}
+
+.actions-bar {
+    position: absolute;
+    right: .4em;
+    top: 1em;
+    display: none;
 }
 
 .actions {
@@ -45,7 +52,6 @@
     width: 16px;
     height: 16px;
     cursor: pointer;
-    display: none;
     margin-left: 5px;
 }
 
@@ -65,6 +71,14 @@
     background:  url(/images/delete.png) center center no-repeat;
 }
 
+.stats {
+    background: url(/images/timer.png) center center no-repeat;
+}
+
+.stats-i {
+    background-image: url(/images/timer.png) !important;
+}
+
 td {
     vertical-align: top;
 }
@@ -80,4 +94,31 @@ td {
 
 .ui-draggable-disabled {
     opacity: 1 !important;
+}
+
+.btn-add {
+    background-image: url(/images/add.png) !important;
+}
+
+label {
+    display: block;
+}
+
+#equipage {
+    vertical-align: middle;
+    font-family: Verdana;
+}
+
+#equipage p {
+    margin: 5px;
+}
+
+#equipage .number {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#equipage .driver {
+    font-size: 18px;
 }

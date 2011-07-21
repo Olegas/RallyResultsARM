@@ -33,6 +33,7 @@ $.fn.entityList = function(cfg) {
     var _entityConstructor = cfg.entity;
     var _app = cfg.app;
     var _relation = cfg.relation || null;
+    var _requiredListFilter = cfg.requiredListFilter || [];
     var _master = cfg.master || null;
     var _currentEntity = null;
 
@@ -46,7 +47,7 @@ $.fn.entityList = function(cfg) {
     var _addLink = $("<a href='#'>Добавить</a>");
     var _form = $("#form-" + _entityId).dialog({
         autoOpen: false,
-        height: 350,
+        height: 400,
         width: 350,
         modal: true,
         buttons: {
@@ -99,12 +100,16 @@ $.fn.entityList = function(cfg) {
         _currentEntity = _entityConstructor.newInstance(init);
         _form.dialog("open");
         return false;
+    }).button({
+        icons: {
+            primary: 'btn-add'
+        }
     });
 
     $('li', _list.get(0)).live('mouseover', function(){
-        $(this).find('.actions').show();
+        $(this).find('.actions-bar').show();
     }).live('mouseout', function(){
-        $(this).find('.actions').hide();
+        $(this).find('.actions-bar').hide();
     }).live('click', function(){
         var has = $(this).hasClass('item-selected');
         _list.find('li').removeClass('item-selected');
@@ -117,7 +122,7 @@ $.fn.entityList = function(cfg) {
 
 
     $('.edit', _list.get(0)).live('click', function(){
-        _app.getDb().read(_entityConstructor, $(this).parent('li').attr('eId')).done(function(entity){
+        _app.getDb().read(_entityConstructor, $(this).parents('li').attr('eId')).done(function(entity){
             _currentEntity = entity;
             _form.find('input').each(function(){
                 var n = this.name;
@@ -137,7 +142,7 @@ $.fn.entityList = function(cfg) {
 
     $('.delete', _list.get(0)).live('click', function(){
         if(confirm("Delete?"))
-            _app.getDb().remove(_entityConstructor, { id: $(this).parent('li').attr('eId') }).done(function(){
+            _app.getDb().remove(_entityConstructor, { id: $(this).parents('li').attr('eId') }).done(function(){
                 reloadList();
                 clearForm();
                 _form.dialog("close");
@@ -169,18 +174,18 @@ $.fn.entityList = function(cfg) {
     function reloadList() {
         var order = cfg.sortable ? [ '`order` ASC' ] : [];
         _list.children().remove();
-        if(_relation != null) {
-            for(var i = 0, l = _relation.length; i < l; i++) {
-                if(!(_relation[i] in _where))
+        if(_requiredListFilter != null) {
+            for(var i = 0, l = _requiredListFilter.length; i < l; i++) {
+                if(!(_requiredListFilter[i] in _where))
                     return;
             }
         }
         _app.getDb().list(_entityConstructor, _where, order).done(function(list){
             for(var i = 0, l = list.length; i<l; i++) {
-                var tpl = "<li eName='" + _entityConstructor.getName() + "' eId='" + list[i]._id + "'>" +
+                var tpl = "<li eName='" + _entityConstructor.getName() + "' eId='" + list[i]._id + "'><div class='actions-bar'>" +
                         (_master != null ? "<div class='actions editmode reorder'></div>" : '') +
                         "<div class='actions edit'></div>" +
-                        "<div class='actions delete'></div>";
+                        "<div class='actions delete'></div></div>";
                 var s = _entityConstructor.getStruct();
                 for(var f in s) {
                     if(s.hasOwnProperty(f) && s[f] == 'text') {
@@ -215,7 +220,8 @@ $.fn.entityList = function(cfg) {
                         });
                     })
                 }
-            })
+            });
+            _list.trigger('reloaded', [ _list ]);
         })
     }
 

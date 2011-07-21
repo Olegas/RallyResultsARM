@@ -4,6 +4,15 @@ var app = new App();
 
 app.ready.done(function(){
 
+    window.onhashchange = function() {
+        var h = location.hash;
+        if(h.indexOf('#!/') === 0) {
+            if(h.indexOf('#!/stats/') === 0) {
+
+            }
+        }
+    };
+
     var cL = $('#list-competition').entityList({
         app: app,
         entity: Competition
@@ -14,8 +23,18 @@ app.ready.done(function(){
         entity: Section,
         master: cL,
         sortable: true,
-        relation: 'competitionId'
+        relation: 'competitionId',
+        requiredListFilter: [ 'competitionId' ]
     });
+    /*.bind('reloaded', function(e, list){
+        list.find('.actions-bar').append("<div class='actions stats'></div>");
+    });
+
+    $('.stats', sL.find('ul')).live('click', function(){
+        var cId = cL.find('.item-selected').attr('eId');
+        var sId = sL.find('.item-selected').attr('eId');
+        location = '#!/stats/competitionId/' + cId + '/sectionId/' + sId + '/';
+    });*/
 
     var teL = $('#list-teams').entityList({
         app: app,
@@ -27,7 +46,18 @@ app.ready.done(function(){
         entity: Equipage,
         master: [cL, teL],
         sortable: true,
-        relation: ['competitionId', 'teamId']
+        relation: ['competitionId', 'teamId'],
+        requiredListFilter: [ 'competitionId' ]
     });
+
+    $('#fillStat').button({
+        icons: {
+            primary: 'stats-i'
+        }
+    }).click(function(){
+        return false;
+    });
+
+    $('#statsForm, #admin').height($(window).height());
 
 });

@@ -18,36 +18,51 @@
     <script type="text/javascript" src="/js/rallyResultARM.js"></script>
 </head>
 <body>
-<table>
-    <colgroup>
-        <col width="25%"/>
-        <col width="25%"/>
-        <col width="25%"/>
-        <col width="25%"/>
-    </colgroup>
-    <tr>
-        <td>
-            <h2>Соревнования</h2>
-            <div id="list-competition" class="data-container">
-            </div>
-        </td>
-        <td>
-            <h2>Команды</h2>
-            <div id="list-teams" class="data-container">
-            </div>
-        </td>
-        <td>
-            <h2>Спецучастки</h2>
-            <div id="list-sections" class="data-container">
-            </div>
-        </td>
-        <td>
-            <h2>Экипажи</h2>
-            <div id="list-equipage" class="data-container">
-            </div>
-        </td>
-    </tr>
-</table>
+<div id="admin">
+    <table>
+        <colgroup>
+            <col width="1*"/>
+            <col width="1*"/>
+            <col width="30px"/>
+            <col width="1*"/>
+            <col width="1*"/>
+            <col width="30px"/>
+            <col width="1*"/>
+        </colgroup>
+        <tr>
+            <td><h3>Соревнования</h3></td>
+            <td><h3>Спецучастки</h3></td>
+            <td>&nbsp;</td>
+            <td><h3>Команды</h3></td>
+            <td><h3>Экипажи</h3></td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+
+                <div id="list-competition" class="data-container">
+                </div>
+            </td>
+            <td>
+                <div id="list-sections" class="data-container">
+                </div>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <div id="list-teams" class="data-container">
+                </div>
+            </td>
+            <td>
+                <div id="list-equipage" class="data-container">
+                </div>
+            </td>
+            <td>&nbsp;</td>
+            <td>
+                <a href="#" id="fillStat">Ввод данных</a>
+            </td>
+        </tr>
+    </table>
+</div>
 
 
 <div id="form-competition" class="app-hidden">
@@ -61,6 +76,8 @@
     <form>
         <label for="se-name">Название</label>
         <input type="text" name="Name" id="se-name" class="text ui-widget-content ui-corner-all"/>
+        <label for="se-kv">Это КВ?</label>
+        <input type="checkbox" name="IsCheckpoint" id="se-kv" class="text ui-widget-content ui-corner-all"/>
     </form>
 </div>
 
@@ -83,5 +100,72 @@
         <input type="text" name="Car" id="eq-auto" class="text ui-widget-content ui-corner-all"/>
     </form>
 </div>
+
+
+<div id="statsForm">
+    <table width="100%">
+        <colgroup>
+            <col width="20%" />
+            <col />
+        </colgroup>
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <table width="100%">
+                    <colgroup>
+                        <col width="50px" />
+                        <col width="50px" />
+                        <col width="1*" />
+                        <col width="50px" />
+                        <col width="50px" />
+                    </colgroup>
+                    <tr>
+                        <td>
+                            <a href="#"><img src="/images/go-first.png" /></a>
+                        </td>
+                        <td>
+                            <a href="#"><img src="/images/go-back.png" /></a>
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <a href="#"><img src="/images/go-forward.png" /></a>
+                        </td>
+                        <td>
+                            <a href="#"><img src="/images/go-last.png" /></a>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td id="equipage">
+                <p class="number">25</p>
+                <p class="driver">Иванов</p>
+                <p class="driver">Петров</p>
+            </td>
+            <td id="enterArea">
+                <table width="100%">
+                    <colgroup>
+                        <col width="1*" />
+                        <col width="1*" />
+                        <col width="1*" />
+                    </colgroup>
+                    <tr>
+                        <th>Протокол</th>
+                        <th>Контрольная-карта</th>
+                        <th>On-line</th>
+                    </tr>
+                    <tr>
+
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
 </body>
 </html>
