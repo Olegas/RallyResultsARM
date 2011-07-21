@@ -47,12 +47,6 @@
     cursor: pointer;
     display: none;
     margin-left: 5px;
-    border: 1px solid transparent;
-    border-radius: 2px 2px 2px 2px;
-}
-
-.action-on {
-    border-color: black;
 }
 
 .edit {
@@ -61,6 +55,10 @@
 
 .connect {
     background:  url(/images/connection.png) center center no-repeat;
+}
+
+.reorder {
+    background:  url(/images/reorder.png) center center no-repeat;
 }
 
 .delete {
@@ -78,4 +76,8 @@ td {
 .item-list li.canDrop {
     background: #006600;
     color: #ffffff;
+}
+
+.ui-draggable-disabled {
+    opacity: 1 !important;
 }

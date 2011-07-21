@@ -129,9 +129,9 @@ $.fn.entityList = function(cfg) {
         });
     });
 
-    $('.connect', _list.get(0)).live('click', function(){
-        var i = $(this).toggleClass('action-on');
-        _list.find('li').draggable("option", "disabled", !i.hasClass('action-on'));
+    $('.editmode', _list.get(0)).live('click', function(){
+        var col = _list.find('li .editmode');
+        col.draggable("option", "disabled", col.toggleClass('connect').toggleClass('reorder').hasClass('reorder'));
         return false;
     });
 
@@ -178,7 +178,7 @@ $.fn.entityList = function(cfg) {
         _app.getDb().list(_entityConstructor, _where, order).done(function(list){
             for(var i = 0, l = list.length; i<l; i++) {
                 var tpl = "<li eName='" + _entityConstructor.getName() + "' eId='" + list[i]._id + "'>" +
-                        (_master != null ? "<div class='actions connect'></div>" : '') +
+                        (_master != null ? "<div class='actions editmode reorder'></div>" : '') +
                         "<div class='actions edit'></div>" +
                         "<div class='actions delete'></div>";
                 var s = _entityConstructor.getStruct();
@@ -199,7 +199,7 @@ $.fn.entityList = function(cfg) {
             }
             _list.find('li').droppable({
                 accept: function(drag) {
-                    return (_list.data('siblings') || []).indexOf(drag.attr('eName')) != -1;
+                    return (_list.data('siblings') || []).indexOf(drag.attr('eName')) != -1 && drag.find('.connect').length > 0;
                 },
                 hoverClass: 'dropHere',
                 activeClass: 'canDrop',
